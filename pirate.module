@@ -1,0 +1,159 @@
+<?php
+
+function pirate_help($section) {
+  switch ($section) {
+    case 'admin/modules#description':
+      return t("Avast ye scurvy dogs!");
+  }
+}
+
+function pirate_filter($op, $delta = 0, $format = -1, $text = '') {
+  switch ($op) {
+    case 'list':
+      return array(0 => t('Pirate filter'));
+    case 'description':
+      return t('Ah, Squiddy! I got nothing against ye. I just heard there was gold in yer belly. Ha ha har, ha ha ha har!');
+    case 'process': 
+      if (date('md') != '0919') {
+        return;
+      }
+      $patterns = array( 
+        '%\bmy\b%' => 'me',
+        '%\bboss\b%' => 'admiral',
+        '%\bmanager\b%' => 'admiral',
+        '%\b[Cc]aptain\b%' => "Cap'n",
+        '%\bmyself\b%' => 'meself',
+        '%\byour\b%' => 'yer',
+        '%\byou\b%' => 'ye',
+        '%\bfriend\b%' => 'matey',
+        '%\bfriends\b%' => 'maties',
+        '%\bco[-]?worker\b%' => 'shipmate',
+        '%\bco[-]?workers\b%' => 'shipmates',
+        '%\bpeople\b%' => 'scallywags',
+        '%\bearlier\b%' => 'afore',
+        '%\bold\b%' => 'auld',
+        '%\bthe\b%' => "th'",
+        '%\bof\b%' =>  "o'",
+        "%\bdon't\b%" => "dern't",
+        '%\bdo not\b%' => "dern't",
+        '%\bnever\b%' => "ne'er",
+        '%\bever\b%' => "e'er",
+        '%\bover\b%' => "o'er",
+        '%\bYes\b%' => 'Aye',
+        '%\bNo\b%' => 'Nay',
+        '%\bYeah\b%' => 'Aye',
+        '%\byeah\b%' => 'aye',
+        "%\bdon't know\b%" => "dinna",
+        "%\bdidn't know\b%" => "did nay know",
+        "%\bhadn't\b%" => "ha'nae",
+        "%\bdidn't\b%"=>  "di'nae",
+        "%\bwasn't\b%" => "weren't",
+        "%\bhaven't\b%" => "ha'nae",
+        '%\bfor\b%' => 'fer',
+        '%\bbetween\b%' => 'betwixt',
+        '%\baround\b%' => "aroun'",
+        '%\bto\b%' => "t'",
+        "%\bit's\b%" => "'tis",
+        '%\bwoman\b%' => 'wench',
+        '%\bwomen\b%' => 'wenches',
+        '%\blady\b%' => 'wench',
+        '%\bwife\b%' => 'lady',
+        '%\bgirl\b%' => 'lass',
+        '%\bgirls\b%' => 'lassies',
+        '%\bguy\b%' => 'lubber',
+        '%\bman\b%' => 'lubber',
+        '%\bfellow\b%' => 'lubber',
+        '%\bdude\b%' => 'lubber',
+        '%\bboy\b%' => 'lad',
+        '%\bboys\b%' => 'laddies',
+        '%\bchildren\b%' => 'little sandcrabs',
+        '%\bkids\b%' => 'minnows',
+        '%\bhim\b%' => 'that scurvey dog',
+        '%\bher\b%' => 'that comely wench',
+        '%\bhim\.\b%' => 'that drunken sailor',
+        '%\bHe\b%' => 'The ornery cuss',
+        '%\bShe\b%' => 'The winsome lass',
+        "%\bhe's\b%" => 'he be',
+        "%\bshe's\b%" => 'she be',
+        '%\bwas\b%' => "were bein'",
+        '%\bHey\b%' => 'Avast',
+        '%\bher\.\b%' => 'that lovely lass',
+        '%\bfood\b%' => 'chow',
+        '%\bmoney\b%' => 'dubloons',
+        '%\bdollars\b%' => 'pieces of eight',
+        '%\bcents\b%' => 'shillings',
+        '%\broad\b%' => 'sea',
+        '%\broads\b%' => 'seas',
+        '%\bstreet\b%' => 'river',
+        '%\bstreets\b%' => 'rivers',
+        '%\bhighway\b%' => 'ocean',
+        '%\bhighways\b%' => 'oceans',
+        '%\binterstate\b%' => 'high sea',
+        '%\bprobably\b%' => 'likely',
+        '%\bidea\b%' => 'notion',
+        '%\bcar\b%' => 'boat',
+        '%\bcars\b%' => 'boats',
+        '%\btruck\b%' => 'schooner',
+        '%\btrucks\b%' => 'schooners',
+        '%\bSUV\b%' => 'ship',
+        '%\bairplane\b%' => 'flying machine',
+        '%\bjet\b%' => 'flying machine',
+        '%\bmachine\b%' => 'contraption',
+        '%\bdriving\b%' => 'sailing',
+        '%\bunderstand\b%' => 'reckon',
+        '%\bdrive\b%' => 'sail',
+			'%\bdied\b%' => 'snuffed it',
+        '/ing\b/' => "in'",
+        '/ings\b/' => "in's",
+        // These next two do cool random substitutions
+        '/(\.\s)/e' => 'avast("$0",3)',
+        '/([!\?]\s)/e' => 'avast("$0",2)', // Greater chance after exclamation
+        );
+      foreach ($patterns as $pattern_search => $pattern_replace) {
+        $text = preg_replace($pattern_search, $pattern_replace, $text);
+      }
+      return $text;
+    default:  
+      return $text;
+  }
+}
+
+// support function for pirate()
+// this could probably be refactored to make it more generic, allowing
+// different filters to pass their own patterns in.
+function avast($stub = '',$chance = 5) {
+  $shouts = array(
+    ", avast$stub",
+    "$stub Ahoy!",
+    ", and a bottle of rum!",
+    ", by Blackbeard's sword$stub",
+    ", by Davy Jones' locker$stub",
+    "$stub Walk the plank!",
+    "$stub Aarrr!",
+    "$stub Yaaarrrrr!",
+    ", pass the grog!",
+    ", and dinna spare the whip!",
+				", with a chest full of booty$stub",
+    ", and a bucket o' chum$stub",
+    ", we'll keel-haul ye!",
+    "$stub Shiver me timbers!",
+    "$stub And hoist the mainsail!",
+    "$stub And swab the deck!",
+    ", ye scurvey dog$stub",
+    "$stub Fire the cannons!",
+    ", to be sure$stub",
+    ", I'll warrant ye$stub",
+    ", on a dead man's chest!",
+    "$stub Load the cannons!",
+    "$stub Prepare to be boarded!",
+    ", I'll warrant ye$stub",
+    "$stub Ye'll be sleepin' with the fishes!",
+    "$stub The sharks will eat well tonight!",
+    "$stub Oho!",
+    "$stub Fetch me spyglass!",
+    );
+  
+  shuffle($shouts);	
+  return (((1 == rand(1,$chance))?array_shift($shouts):$stub) . ' ');
+}
+?>
