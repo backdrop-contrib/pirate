@@ -15,7 +15,7 @@ function pirate_filter($op, $delta = 0, $format = -1, $text = '') {
       return t('Ah, Squiddy! I got nothing against ye. I just heard there was gold in yer belly. Ha ha har, ha ha ha har!');
     case 'process': 
       if (date('md') != '0919') {
-        return;
+        return $text;
       }
       $patterns = array( 
         '%\bmy\b%' => 'me',
