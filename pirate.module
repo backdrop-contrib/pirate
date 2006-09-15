@@ -118,6 +118,10 @@ function pirate_filter($op, $delta = 0, $format = -1, $text = '') {
   }
 }
 
+function pirate_filter_tips($delta, $format, $long = FALSE) {
+  return "Avast!  This website be taken over by pirates on September 19th.  Yarr!";
+}
+
 // support function for pirate()
 // this could probably be refactored to make it more generic, allowing
 // different filters to pass their own patterns in.
