@@ -1,2 +1,3 @@
 name = Pirate Filter
 description = "Avast ye scurvy dogs!"
+core = 6.x

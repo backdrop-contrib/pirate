@@ -181,4 +181,3 @@ function avast($stub = '',$chance = 5) {
   shuffle($shouts);	
   return (((1 == rand(1,$chance))?array_shift($shouts):$stub) . ' ');
 }
-?>
