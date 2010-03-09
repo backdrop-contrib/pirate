@@ -65,7 +65,7 @@ function _pirate_eval($text) {
     "%\bdon't know\b%" => "dinna",
     "%\bdidn't know\b%" => "did nay know",
     "%\bhadn't\b%" => "ha'nae",
-    "%\bdidn't\b%"=>  "di'nae",
+    "%\bdidn't\b%" =>  "di'nae",
     "%\bwasn't\b%" => "weren't",
     "%\bhaven't\b%" => "ha'nae",
     '%\bfor\b%' => 'fer',
@@ -142,7 +142,7 @@ function _pirate_tips($format, $long = FALSE) {
 // support function for pirate()
 // this could probably be refactored to make it more generic, allowing
 // different filters to pass their own patterns in.
-function avast($stub = '',$chance = 5) {
+function avast($stub = '', $chance = 5) {
   $shouts = array(
     ", avast$stub",
     "$stub Ahoy!",
@@ -185,8 +185,7 @@ function avast($stub = '',$chance = 5) {
     ", Dance the Hempen Jig",
     ", Hornswaggle",
     ", Ya lily livered swabbie!",
-    );
-  
+  );
   shuffle($shouts);	
-  return (((1 == rand(1,$chance))?array_shift($shouts):$stub) . ' ');
+  return (((1 == rand(1, $chance))?array_shift($shouts):$stub) . ' ');
 }
