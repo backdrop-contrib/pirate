@@ -1,19 +1,19 @@
 <?php
 
-function pirate_help($section) {
 /** 
-* Implement hook_help().
-*/
+ * Implement hook_help().
+ */
+function pirate_help($section) {
   switch ($section) {
     case 'admin/modules#description':
       return t("Avast ye scurvy dogs!");
   }
 }
 
-function pirate_filter_info() {
 /**
-* Implement hook_filter_info().
-*/
+ * Implement hook_filter_info().
+ */
+function pirate_filter_info() {
   $filters = array();
   $filters['pirate'] = array(
     'title' => t('Pirate filter'),
@@ -139,9 +139,11 @@ function _pirate_tips($format, $long = FALSE) {
   return "Avast!  This website be taken over by pirates on September 19th.  Yarr!";
 }
 
-// support function for pirate()
-// this could probably be refactored to make it more generic, allowing
-// different filters to pass their own patterns in.
+/*
+ * Support function for _pirate_eval()
+ * this could probably be refactored to make it more generic, allowing
+ * different filters to pass their own patterns in.
+ */
 function avast($stub = '', $chance = 5) {
   $shouts = array(
     ", avast$stub",
