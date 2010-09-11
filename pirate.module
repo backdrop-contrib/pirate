@@ -19,9 +19,24 @@ function pirate_filter_info() {
     'title' => t('Pirate filter'),
     'description' => t('Ah, Squiddy! I got nothing against ye. I just heard there was gold in yer belly. Ha ha har, ha ha ha har!'),
     'process callback' => '_pirate_eval',
+    'settings callback' => '_pirate_settings',
+    'default settings' => array('pirate_display_tip' => 1),
     'tips callback' => '_pirate_tips',
   );
   return $filters;
+}
+
+/**
+ * Settings for the Pirate filter.
+ */
+function _pirate_settings($form, $form_state, $filter, $format, $defaults) {
+  $settings['pirate_display_tip'] = array(
+    '#title' => t('Display Pirate filter tip'),
+    '#description' => t('In case you want to make it a surprise on September 19th that pirates have taken over your site.'),
+    '#type' => 'checkbox',
+    '#default_value' => isset($filter->settings['pirate_display_tip']) ? $filter->settings['pirate_display_tip'] : $defaults['pirate_display_tip'],
+  );
+  return $settings;
 }
 
 function _pirate_eval($text) {
@@ -135,8 +150,10 @@ function _pirate_eval($text) {
   return $text;
 }
 
-function _pirate_tips($format, $long = FALSE) {
-  return "Avast!  This website be taken over by pirates on September 19th.  Yarr!";
+function _pirate_tips($filter, $format, $long = FALSE) {
+  if ($filter->settings['pirate_display_tip']) {
+    return "Avast!  This website be taken over by pirates on September 19th.  Yarr!";
+  }
 }
 
 /*
