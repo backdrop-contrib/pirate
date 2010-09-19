@@ -1,45 +1,72 @@
 <?php
+// $Id$
 
 /** 
- * Implement hook_help().
+ * Implements hook_help().
  */
 function pirate_help($section) {
   switch ($section) {
     case 'admin/modules#description':
-      return t("Avast ye scurvy dogs!");
+      return t('Avast ye scurvy dogs!');
   }
 }
 
 /**
- * Implement hook_filter_info().
+ * Implements hook_element_info_alter().
+ */
+function pirate_element_info_alter(&$types) {
+  foreach ($types as $type => &$info) {
+    $info += array('#pre_render' => array());
+    array_unshift($info['#pre_render'], 'pirate_pre_render');
+  }
+}
+
+/**
+ * #pre_render callback for any element.
+ */
+function pirate_pre_render($element) {
+  foreach (array('#title', '#description', '#markup') as $property) {
+    if (isset($element[$property])) {
+      $element[$property] = pirate_filter_process($element[$property]);
+    }
+  }
+  return $element;
+}
+
+/**
+ * Implements hook_filter_info().
  */
 function pirate_filter_info() {
-  $filters = array();
   $filters['pirate'] = array(
     'title' => t('Pirate filter'),
     'description' => t('Ah, Squiddy! I got nothing against ye. I just heard there was gold in yer belly. Ha ha har, ha ha ha har!'),
-    'process callback' => '_pirate_eval',
-    'settings callback' => '_pirate_settings',
-    'default settings' => array('pirate_display_tip' => 1),
-    'tips callback' => '_pirate_tips',
+    'process callback' => 'pirate_filter_process',
+    'settings callback' => 'pirate_filter_settings',
+    'default settings' => array(
+      'pirate_display_tip' => 1,
+    ),
+    'tips callback' => 'pirate_filter_tips',
   );
   return $filters;
 }
 
 /**
- * Settings for the Pirate filter.
+ * Filter settings callback for Pirate filter.
  */
-function _pirate_settings($form, $form_state, $filter, $format, $defaults) {
+function pirate_filter_settings($form, $form_state, $filter, $format, $defaults) {
   $settings['pirate_display_tip'] = array(
-    '#title' => t('Display Pirate filter tip'),
-    '#description' => t('In case you want to make it a surprise on September 19th that pirates have taken over your site.'),
     '#type' => 'checkbox',
+    '#title' => t('Display Pirate filter tip'),
     '#default_value' => isset($filter->settings['pirate_display_tip']) ? $filter->settings['pirate_display_tip'] : $defaults['pirate_display_tip'],
+    '#description' => t('In case you want to make it a surprise on September 19th that pirates have taken over your site.'),
   );
   return $settings;
 }
 
-function _pirate_eval($text) {
+/**
+ * Filter process callback for Pirate filter.
+ */
+function pirate_filter_process($text) {
   if (date('md') != '0919') {
     return $text;
   }
@@ -139,10 +166,10 @@ function _pirate_eval($text) {
     '%\bdied\b%' => 'snuffed it',
     '/ing\b/' => "in'",
     '/ings\b/' => "in's",
-  
+
     // These next two do cool random substitutions
-    '/(\.\s)/e' => 'avast("$0",3)',
-    '/([!\?]\s)/e' => 'avast("$0",2)', // Greater chance after exclamation
+    '/(\.\s)/e' => 'pirate_avast("$0",3)',
+    '/([!\?]\s)/e' => 'pirate_avast("$0",2)', // Greater chance after exclamation
   );
   foreach ($patterns as $pattern_search => $pattern_replace) {
     $text = preg_replace($pattern_search, $pattern_replace, $text);
@@ -150,18 +177,21 @@ function _pirate_eval($text) {
   return $text;
 }
 
-function _pirate_tips($filter, $format, $long = FALSE) {
+/**
+ * Filter tips callback for Pirate filter.
+ */
+function pirate_filter_tips($filter, $format, $long = FALSE) {
   if ($filter->settings['pirate_display_tip']) {
-    return "Avast!  This website be taken over by pirates on September 19th.  Yarr!";
+    return t('Avast! This website be taken over by pirates on September 19th. Yarr!');
   }
 }
 
-/*
- * Support function for _pirate_eval()
- * this could probably be refactored to make it more generic, allowing
- * different filters to pass their own patterns in.
+/**
+ * preg_replace() callback for pirate_filter_process().
+ *
+ * @todo Refactor to allow passing in custom patterns.
  */
-function avast($stub = '', $chance = 5) {
+function pirate_avast($stub = '', $chance = 5) {
   $shouts = array(
     ", avast$stub",
     "$stub Ahoy!",
@@ -206,5 +236,5 @@ function avast($stub = '', $chance = 5) {
     ", Ya lily livered swabbie!",
   );
   shuffle($shouts);	
-  return (((1 == rand(1, $chance))?array_shift($shouts):$stub) . ' ');
+  return (((rand(1, $chance) == 1) ? array_shift($shouts) : $stub) . ' ');
 }
