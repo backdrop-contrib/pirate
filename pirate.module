@@ -171,6 +171,11 @@ function pirate_filter_process($text) {
     '/(\.\s)/e' => 'pirate_avast("$0",3)',
     '/([!\?]\s)/e' => 'pirate_avast("$0",2)', // Greater chance after exclamation
   );
+
+  // Allow others to alter our patterns.
+  // Cache must be flushed for invocations of this hook to be felt.
+  $patterns = module_invoke_all('captain', $patterns);
+
   foreach ($patterns as $pattern_search => $pattern_replace) {
     $text = preg_replace($pattern_search, $pattern_replace, $text);
   }
