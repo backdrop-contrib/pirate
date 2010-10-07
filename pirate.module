@@ -67,7 +67,7 @@ function pirate_filter_settings($form, $form_state, $filter, $format, $defaults)
  * Filter process callback for Pirate filter.
  */
 function pirate_filter_process($text) {
-  if (date('md') != '0919') {
+  if (format_date(REQUEST_TIME, 'custom', 'md') != '0919') {
     return $text;
   }
   $patterns = array(
