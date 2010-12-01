@@ -17,6 +17,8 @@
  * @param $patterns
  *   An associative array of patterns, with the key as the search
  *   pattern and the value as the replacement pattern.
+ * @return $patterns
+ *   An associative array of patterns, merged with the array passed to it.
  */
 function hook_captain(&$patterns) {
   $my_patterns = array(
@@ -24,6 +26,8 @@ function hook_captain(&$patterns) {
     '%\bcommunity\b%' => 'curmmunity',
     '%\bplumbing\b%'  => 'depths',
   );
+  $patterns = array_merge($patterns, $my_patterns);
+  return $patterns;
 }
 
 /**
