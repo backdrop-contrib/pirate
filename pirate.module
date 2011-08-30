@@ -63,13 +63,10 @@ function pirate_filter_settings($form, $form_state, $filter, $format, $defaults)
 }
 
 /**
- * Filter process callback for Pirate filter.
+ * Implements hook_captain().
  */
-function pirate_filter_process($text) {
-  if (format_date(REQUEST_TIME, 'custom', 'md') != '0919') {
-    return $text;
-  }
-  $patterns = array(
+function pirate_captain($patterns) {
+  $pirate_patterns = array(
     '%\bmy\b%' => 'me',
     '%\bboss\b%' => 'admiral',
     '%\bmanager\b%' => 'admiral',
@@ -170,9 +167,19 @@ function pirate_filter_process($text) {
     '/(\.\s)/e' => 'pirate_avast("$0",3)',
     '/([!\?]\s)/e' => 'pirate_avast("$0",2)', // Greater chance after exclamation
   );
+  return array_merge($pirate_patterns, $patterns);
+}
 
+/**
+ * Filter process callback for Pirate filter.
+ */
+function pirate_filter_process($text) {
+  if (format_date(REQUEST_TIME, 'custom', 'md') != '0919') {
+    return $text;
+  }
   // Allow others to alter our patterns.
   // Cache must be flushed for invocations of this hook to be felt.
+  $patterns = array();
   $patterns = module_invoke_all('captain', $patterns);
 
   // Most of the following code is taken from Drupal core's Filter module

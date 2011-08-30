@@ -19,14 +19,13 @@
  * @return $patterns
  *   An associative array of patterns, merged with the array passed to it.
  */
-function hook_captain(&$patterns) {
+function hook_captain($patterns) {
   $my_patterns = array(
     '%\bDrupal\b%'    => 'tha Drrupal',
     '%\bcommunity\b%' => 'curmmunity',
     '%\bplumbing\b%'  => 'depths',
   );
-  $patterns = array_merge($patterns, $my_patterns);
-  return $patterns;
+  return array_merge($patterns, $my_patterns);
 }
 
 /**
