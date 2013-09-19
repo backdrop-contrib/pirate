@@ -174,8 +174,11 @@ function pirate_captain($patterns) {
  * Filter process callback for Pirate filter.
  */
 function pirate_filter_process($text) {
+  $pirate_override = variable_get('pirate_override', 0);
   if (format_date(REQUEST_TIME, 'custom', 'md') != '0919') {
-    return $text;
+    if ($pirate_override == 0) {
+      return $text;
+    }
   }
   // Allow others to alter our patterns.
   // Cache must be flushed for invocations of this hook to be felt.
