@@ -2,3 +2,4 @@ name = Pirate filter
 description = "Avast ye scurvy dogs!"
 core = 7.x
 files[] = pirate.module
+configure = admin/config/content/formats
