@@ -3,10 +3,11 @@
 /** 
  * Implements hook_help().
  */
-function pirate_help($section) {
-  switch ($section) {
-    case 'admin/modules#description':
-      return t('Avast ye scurvy dogs!');
+function pirate_help($path, $arg) {
+  switch ($path) {
+    case "admin/help#pirate":
+      return t('This module is a simple filter that, when enabled, will change your posts to Pirate talk on September 19th for <a href="@talklikeapirateday">Talk Like a Pirate Day</a>.', array('@talklikeapirateday' => 'http://www.talklikeapirate.com/'));
+      break;
   }
 }
 
