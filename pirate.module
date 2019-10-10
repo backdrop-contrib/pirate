@@ -1,6 +1,6 @@
 <?php
 
-/** 
+/**
  * Implements hook_help().
  */
 function pirate_help($path, $arg) {
@@ -187,7 +187,7 @@ function pirate_filter_process($text) {
   $patterns = module_invoke_all('captain', $patterns);
 
   // Most of the following code is taken from Drupal core's Filter module
-  // in order to exclude text within tags, such as URLs that might get 
+  // in order to exclude text within tags, such as URLs that might get
   // modified using the replacement patterns.
   $ignore_tags = 'a|script|style|code|pre';
   $open_tag = '';
@@ -286,6 +286,6 @@ function pirate_avast($stub = '', $chance = 5) {
     ", Hornswaggle",
     ", Ya lily livered swabbie!",
   );
-  shuffle($shouts);	
+  shuffle($shouts);
   return (((rand(1, $chance) == 1) ? array_shift($shouts) : $stub) . ' ');
 }
