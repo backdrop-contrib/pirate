@@ -8,12 +8,16 @@ This module is a simple filter that, when enabled, will change your posts to
 Installation <!-- This section is required. -->
 ------------
 
+Arrr here's what ye do:
+
 - Install this module using the official Backdrop CMS instructions at
   https://docs.backdropcms.org/documentation/extend-with-modules.
 
 - Visit the Text Formats page under Administration > Configuration >
   Content authoring > Text formats (admin/config/content/formats) and enable the
-  Pirate filter on the selected format.
+  Pirate filter on yer selected format.
+
+- Wait until 09/19
 
 Issues <!-- This section is required. -->
 ------

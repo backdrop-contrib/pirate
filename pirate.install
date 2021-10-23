@@ -1,0 +1,18 @@
+<?php
+/**
+ * @file
+ * Update, Install, Uninstall, and Requirements hooks for Pirate module.
+ */
+
+/**
+ * Converts variabled to configuration.
+ */
+function pirate_update_1000() {
+  // Convert variables to config.
+  $config = config('pirate.booty');
+  $config->set('pirate_override', update_variable_get('pirate_override', FALSE));
+  $config->save();
+
+  // Delete variables.
+  update_variable_del('pirate_override');
+}
