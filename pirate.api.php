@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Hooks provided by the Pirate filter module

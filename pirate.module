@@ -1,14 +1,22 @@
 <?php
+/**
+ * @file
+ * Avast ye scurvy dogs!
+ */
 
 /**
- * Implements hook_help().
+ * [pirate_config_info description]
+ * @return [type] [description]
  */
-function pirate_help($path, $arg) {
-  switch ($path) {
-    case "admin/help#pirate":
-      return t('This module is a simple filter that, when enabled, will change your posts to Pirate talk on September 19th for <a href="@talklikeapirateday">Talk Like a Pirate Day</a>.', array('@talklikeapirateday' => 'http://www.talklikeapirate.com/'));
-      break;
-  }
+function pirate_config_info() {
+  // If this configuration file points to one particular file, a "name" key
+  // will display that exact string for that file.
+  $prefixes['pirate.booty'] = array(
+    'label' => t('Pirate Settings'),
+    'group' => t('Configuration'),
+  );
+
+  return $prefixes;
 }
 
 /**
@@ -53,7 +61,7 @@ function pirate_filter_info() {
 /**
  * Filter settings callback for Pirate filter.
  */
-function pirate_filter_settings($form, $form_state, $filter, $format, $defaults) {
+function pirate_filter_settings($form, $form_state, $filter, $format, $defaults = array()) {
   $settings['pirate_display_tip'] = array(
     '#type' => 'checkbox',
     '#title' => t('Display Pirate filter tip'),
@@ -171,7 +179,7 @@ function pirate_captain($patterns) {
  * Filter process callback for Pirate filter.
  */
 function pirate_filter_process($text) {
-  $pirate_override = variable_get('pirate_override', 0);
+  $pirate_override = config_get('pirate.booty', 'pirate_override');
   if (format_date(REQUEST_TIME, 'custom', 'md') != '0919') {
     if ($pirate_override == 0) {
       return $text;

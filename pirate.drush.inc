@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Drush commands for Pirate module.
+ */
 
 /**
  * Implements hook_drush_command().
@@ -40,23 +44,23 @@ function pirate_drush_help($command) {
  *   An optional argument
  */
 function drush_pirate_yarr($arg1 = NULL) {
-  //check if the argument was passed in and set the variable accordingly
+  // Check if the argument was passed in and set the variable accordingly.
   if (isset($arg1)) {
     switch ($arg1) {
       case 'on':
-        variable_set('pirate_override', 1);
+        config_set('pirate.booty', 'pirate_override', 1);
         drush_log('The Pirate filter override is now on.', 'ok');
         break;
       case 'off':
-        variable_set('pirate_override', 0);
+        config_set('pirate.booty', 'pirate_override', 0);
         drush_log('The Pirate filter override is now off.', 'ok');
         break;
     }
   }
   else {
-    // toggle the override
-    $override_status = !variable_get('pirate_override', 0);
-    variable_set('pirate_override', $override_status);
+    // Toggle the override.
+    $override_status = !config_get('pirate.booty', 'pirate_override');
+    config_set('pirate.booty', 'pirate_override', $override_status);
     $override_drush_log = $override_status ? 'The Pirate filter override is now on.' : 'The Pirate filter override is now off.';
     drush_log($override_drush_log, 'ok');
   }

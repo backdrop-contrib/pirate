@@ -1,5 +1,6 @@
-name = Pirate filter
-description = "Avast ye scurvy dogs!"
-core = 7.x
-files[] = pirate.module
+type = module
+name = Pirate Filter
+description = Avast ye scurvy dogs!
+backdrop = 1.x
+
 configure = admin/config/content/formats
